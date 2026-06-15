@@ -1,7 +1,5 @@
-import type { LogLevel } from '../config/env.js';
-
-// PrintableLogLevel 表示会真实输出到 stderr 的日志等级。
-type PrintableLogLevel = Exclude<LogLevel, 'silent'>;
+import type { LogLevel } from '../typings/env.js';
+import type { Logger, PrintableLogLevel } from '../typings/logger.js';
 
 // levelWeight 用数值权重控制日志等级过滤。
 const levelWeight: Record<PrintableLogLevel, number> = {
@@ -10,14 +8,6 @@ const levelWeight: Record<PrintableLogLevel, number> = {
   warn: 30,
   error: 40,
 };
-
-// Logger 定义项目内统一使用的日志接口。
-export interface Logger {
-  debug(message: string): void;
-  error(message: string): void;
-  info(message: string): void;
-  warn(message: string): void;
-}
 
 /**
  * 创建 stderr logger，确保普通日志不会写入 MCP 协议使用的 stdout。

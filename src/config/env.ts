@@ -1,6 +1,8 @@
 import { config as loadDotenv } from 'dotenv';
 import { z } from 'zod';
 
+import type { AppEnv } from '../typings/env.js';
+
 // 静默加载 .env，避免 dotenv 默认日志写入 stdout 破坏 MCP stdio 协议。
 loadDotenv({ quiet: true });
 
@@ -14,11 +16,6 @@ const envSchema = z.object({
   MCP_SERVER_NAME: z.string().trim().min(1).default('gu-mcp'),
   MCP_SERVER_VERSION: z.string().trim().min(1).default('0.1.0'),
 });
-
-// AppEnv 表示应用运行时可使用的完整环境配置。
-export type AppEnv = z.infer<typeof envSchema>;
-// LogLevel 表示 logger 支持的日志等级。
-export type LogLevel = AppEnv['MCP_LOG_LEVEL'];
 
 /**
  * 读取并校验环境变量，返回带默认值的应用配置。

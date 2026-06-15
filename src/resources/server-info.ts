@@ -1,6 +1,6 @@
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 
-import type { AppEnv } from '../config/env.js';
+import type { AppEnv } from '../typings/env.js';
 
 /**
  * 注册服务基础信息资源，供 MCP 客户端读取当前服务元数据。
