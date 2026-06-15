@@ -1,0 +1,43 @@
+{
+  "name": "gu-mcp",
+  "version": "0.1.0",
+  "description": "基础 Node TypeScript MCP 服务，包含加法演示。",
+  "type": "module",
+  "bin": {
+    "gu-mcp": "dist/index.mjs"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "tsx src/index.ts",
+    "build": "tsdown",
+    "start": "node dist/index.mjs",
+    "typecheck": "tsc --noEmit",
+    "verify": "pnpm run typecheck && pnpm run build",
+    "mcp:inspect": "pnpm run build && pnpm dlx @modelcontextprotocol/inspector node dist/index.mjs"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "typescript",
+    "node"
+  ],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.18.0"
+  },
+  "packageManager": "pnpm@11.3.0",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "dotenv": "^17.2.3",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "tsdown": "^0.22.2",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  }
+}
