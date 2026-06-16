@@ -9,8 +9,14 @@ loadDotenv({ quiet: true });
 // logLevels 定义服务允许的日志等级枚举。
 const logLevels = ['debug', 'info', 'warn', 'error', 'silent'] as const;
 
+// tcpPortSchema 校验 HTTP 监听端口，支持从环境变量字符串转换为数字。
+const tcpPortSchema = z.coerce.number().int().min(1).max(65_535).default(3000);
+
 // envSchema 负责声明、默认值填充与校验全部环境变量。
 const envSchema = z.object({
+  MCP_HTTP_HOST: z.string().trim().min(1).default('127.0.0.1'),
+  MCP_HTTP_PATH: z.string().trim().startsWith('/').default('/mcp'),
+  MCP_HTTP_PORT: tcpPortSchema,
   MCP_LOG_LEVEL: z.enum(logLevels).default('info'),
   MCP_SERVER_DESCRIPTION: z.string().trim().min(1).default('基础 Node TypeScript MCP 服务。'),
   MCP_SERVER_NAME: z.string().trim().min(1).default('gu-mcp'),

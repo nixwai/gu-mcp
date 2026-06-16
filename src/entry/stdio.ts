@@ -1,11 +1,11 @@
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 
-import { loadEnv } from './config/env.js';
-import { createServer } from './server/create-server.js';
-import { createLogger } from './utils/logger.js';
+import { loadEnv } from '../config/env.js';
+import { createServer } from '../server/create-server.js';
+import { createLogger } from '../utils/logger.js';
 
 /**
- * MCP 服务主入口：加载配置、创建服务实例并连接 stdio 传输。
+ * 启动 stdio 模式：加载配置、创建 MCP 服务并连接标准输入输出传输。
  */
 async function main(): Promise<void> {
   // env 保存当前进程读取并校验后的服务配置。

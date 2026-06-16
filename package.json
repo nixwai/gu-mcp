@@ -4,18 +4,21 @@
   "description": "基础 Node TypeScript MCP 服务，包含加法演示。",
   "type": "module",
   "bin": {
-    "gu-mcp": "dist/index.mjs"
+    "gu-mcp": "dist/stdio.js"
   },
   "files": [
     "dist"
   ],
   "scripts": {
-    "dev": "tsx src/index.ts",
+    "dev": "pnpm run dev:stdio",
+    "dev:stdio": "tsx src/entry/stdio.ts",
+    "dev:http": "tsx src/entry/http.ts",
     "build": "tsdown",
-    "start": "node dist/index.mjs",
+    "start:stdio": "node dist/stdio.js",
+    "start:http": "node dist/http.js",
     "typecheck": "tsc --noEmit",
     "verify": "pnpm run typecheck && pnpm run build",
-    "mcp:inspect": "pnpm run build && pnpm dlx @modelcontextprotocol/inspector node dist/index.mjs"
+    "mcp:inspect": "pnpm run build && pnpm dlx @modelcontextprotocol/inspector node dist/stdio.js"
   },
   "keywords": [
     "mcp",
