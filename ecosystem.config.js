@@ -10,30 +10,30 @@ const logDir = join(rootDir, 'logs', 'pm2');
 
 mkdirSync(logDir, { recursive: true });
 
-export default {
-  apps: [
-    {
-      name: 'gu-mcp-http',
-      cwd: rootDir,
-      script: './dist/http.js',
-      interpreter: 'node',
-      exec_mode: 'fork',
-      instances: 1,
-      autorestart: true,
-      watch: false,
-      max_memory_restart: '256M',
-      kill_timeout: 5000,
+// apps 是 PM2 ecosystem 的应用列表；命名导出可兼容 type: module 项目中的 ecosystem.config.js。
+export const apps = [
+  {
+    // HTTP 模式可由 PM2 常驻托管；stdio 模式需要 MCP 客户端直接接管标准输入输出。
+    name: 'gu-mcp-http',
+    cwd: rootDir,
+    script: './dist/http.js',
+    interpreter: 'node',
+    exec_mode: 'fork',
+    instances: 1,
+    autorestart: true,
+    watch: false,
+    max_memory_restart: '256M',
+    kill_timeout: 5000,
 
-      // 应用日志统一写入 stderr；error_file 是主要运行日志，out_file 仅兜底异常 stdout。
-      out_file: join(logDir, 'gu-mcp-http.out.log'),
-      error_file: join(logDir, 'gu-mcp-http.error.log'),
-      log_file: join(logDir, 'gu-mcp-http.combined.log'),
-      merge_logs: true,
-      log_date_format: 'YYYY-MM-DD HH:mm:ss.SSS Z',
+    // 项目运行日志写入 stderr；error_file 是主要应用日志，out_file 仅用于兜底异常 stdout。
+    out_file: join(logDir, 'gu-mcp-http.out.log'),
+    error_file: join(logDir, 'gu-mcp-http.error.log'),
+    log_file: join(logDir, 'gu-mcp-http.combined.log'),
+    merge_logs: true,
+    log_date_format: 'YYYY-MM-DD HH:mm:ss.SSS Z',
 
-      env: {
-        NODE_ENV: 'production',
-      },
+    env: {
+      NODE_ENV: 'production',
     },
-  ],
-};
+  },
+];
