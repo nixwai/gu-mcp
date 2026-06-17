@@ -38,15 +38,15 @@ pnpm run mcp:inspect
 
 配置从 `.env` 读取，并在 `src/config/env.ts` 中完成校验与默认值填充。
 
-| 变量 | 默认值 | 说明 |
-| --- | --- | --- |
-| `MCP_SERVER_NAME` | `gu-mcp` | MCP 服务名称。 |
-| `MCP_SERVER_VERSION` | `0.1.0` | MCP 服务版本。 |
-| `MCP_SERVER_DESCRIPTION` | `基础 Node TypeScript MCP 服务，包含加法演示。` | 服务描述，会作为 MCP instructions 使用。 |
-| `MCP_LOG_LEVEL` | `info` | 写入 stderr 的最小日志等级。 |
-| `MCP_HTTP_HOST` | `127.0.0.1` | HTTP 模式监听地址。 |
-| `MCP_HTTP_PORT` | `3000` | HTTP 模式监听端口。 |
-| `MCP_HTTP_PATH` | `/mcp` | HTTP Streamable endpoint 路径。 |
+| 变量 | 说明 |
+| --- | --- |
+| `MCP_SERVER_NAME` | MCP 服务名称。 |
+| `MCP_SERVER_VERSION` | MCP 服务版本。 |
+| `MCP_SERVER_DESCRIPTION` | 服务描述，会作为 MCP instructions 使用。 |
+| `MCP_LOG_LEVEL` | 写入 stderr 的最小日志等级。 |
+| `MCP_HTTP_HOST` | HTTP 模式监听地址。 |
+| `MCP_HTTP_PORT` | HTTP 模式监听端口。 |
+| `MCP_HTTP_PATH` | HTTP Streamable endpoint 路径。 |
 
 ## stdio 模式
 
@@ -74,11 +74,7 @@ pnpm run mcp:inspect
 
 ## HTTP 模式
 
-HTTP 模式使用 MCP Streamable HTTP 传输，默认监听：
-
-```text
-http://127.0.0.1:3000/mcp
-```
+HTTP 模式使用 MCP Streamable HTTP 传输
 
 启动开发模式：
 

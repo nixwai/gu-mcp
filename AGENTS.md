@@ -46,7 +46,7 @@
 ## MCP HTTP 规则
 
 - HTTP 模式使用 `StreamableHTTPServerTransport` 与 Node 内置 `http`，不要引入 Express。
-- HTTP 默认监听 `127.0.0.1:3000/mcp`，相关配置来自 `MCP_HTTP_HOST`、`MCP_HTTP_PORT` 与 `MCP_HTTP_PATH`。
+- HTTP 相关配置来自 `MCP_HTTP_HOST`、`MCP_HTTP_PORT` 与 `MCP_HTTP_PATH`。
 - HTTP session map 只允许存在于 HTTP 模式相关文件中，不要放进 `create-server.ts`。
 - 初始化请求创建 transport，后续请求必须通过 `mcp-session-id` 复用已有 transport。
 - `POST`、`GET`、`DELETE` 由 `src/server/http-handler.ts` 维护，进程关闭逻辑由 `src/server/http-shutdown.ts` 维护。

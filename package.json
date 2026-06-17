@@ -1,7 +1,7 @@
 {
   "name": "gu-mcp",
   "version": "0.1.0",
-  "description": "基础 Node TypeScript MCP 服务，包含加法演示。",
+  "description": "基础 Node TypeScript MCP 服务。",
   "type": "module",
   "bin": {
     "gu-mcp": "dist/stdio.js"
