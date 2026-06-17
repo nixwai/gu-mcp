@@ -1,3 +1,4 @@
+import { Buffer } from 'node:buffer';
 import { readdir, readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -7,6 +8,7 @@ import type {
   RecommendedSkillTarget,
   RuntimeEnvironmentHints,
   SkillDetail,
+  SkillFile,
   SkillInstallInstructions,
   SkillScanResult,
   SkillSummary,
@@ -14,8 +16,19 @@ import type {
 
 // SKILL_FILE_NAME 是每个 skill 目录内约定的入口文件名。
 const SKILL_FILE_NAME = 'SKILL.md';
+// SKILL_MANIFEST_FILE_NAME 是 skill 附加展示元数据的约定文件名。
+const SKILL_MANIFEST_FILE_NAME = 'skill.json';
 // SKILL_NAME_PATTERN 与 Codex skill 命名约定保持一致：小写字母、数字和短横线。
 const SKILL_NAME_PATTERN = /^[a-z0-9][a-z0-9-]*$/;
+
+// DEFAULT_SKILL_VERSION 用于 skill.json 缺失版本时保持列表列值稳定。
+const DEFAULT_SKILL_VERSION = '0.0.0';
+
+// SkillMetadata 是内部轻量结构，用于列表扫描和名称匹配。
+interface SkillMetadata extends SkillSummary {
+  body: string;
+  content: string;
+}
 
 /**
  * 扫描项目根目录下的 skills 文件夹，返回可用 skill 及解析告警。
@@ -57,7 +70,7 @@ export async function scanProjectSkills(): Promise<SkillScanResult> {
     }
 
     try {
-      const skill = await readSkillFile(skillFile, directory);
+      const skill = await readSkillMetadata(skillFile, directory);
 
       if (seenNames.has(skill.name)) {
         warnings.push(`Skipped ${directory}: duplicate skill name "${skill.name}"`);
@@ -119,7 +132,7 @@ export async function getProjectSkill(name: string): Promise<SkillDetail> {
     }
 
     try {
-      const skill = await readSkillFile(skillFile, directory);
+      const skill = await readSkillMetadata(skillFile, directory);
 
       if (entry.name === name && skill.name !== name) {
         // 防止调用 get_skill({ name: "foo" }) 时意外读到声明为 "bar" 的目录。
@@ -127,7 +140,7 @@ export async function getProjectSkill(name: string): Promise<SkillDetail> {
       }
 
       if (skill.name === name) {
-        matches.push(skill);
+        matches.push(await readSkillDetail(skill));
       }
     } catch (error: unknown) {
       if (entry.name === name) {
@@ -165,6 +178,8 @@ export function createSkillInstallInstructions(skill: SkillDetail): SkillInstall
   const recommendedTargets = createRecommendedTargets(skill, environmentHints);
 
   return {
+    fileCount: skill.fileCount,
+    files: skill.files,
     name: skill.name,
     note: 'This tool only returns installation instructions. It does not copy files, overwrite existing skills, or modify global Codex configuration.',
     recommendedTargets,
@@ -176,10 +191,12 @@ export function createSkillInstallInstructions(skill: SkillDetail): SkillInstall
     sourceDir: skill.directory,
     steps: [
       'Choose one recommended target directory according to the current prompt and environment hints.',
-      `Copy the whole source directory to the chosen target as ${skill.name}.`,
+      `Create the target skill directory as ${skill.name}.`,
+      'Write every returned file to that directory using its relativePath; decode base64 files before writing and write utf8 files as text.',
       'If the target skill already exists, overwrite only when the user intent clearly asks for replacement; otherwise ask for confirmation first.',
       'After copying, restart or refresh the client that loads Codex skills so it can discover the installed skill.',
     ],
+    totalBytes: skill.totalBytes,
   };
 }
 
@@ -226,19 +243,140 @@ function getSkillsRootCandidates(): string[] {
 }
 
 /**
- * 读取并解析单个 SKILL.md，补齐文件路径和目录路径等运行时元数据。
+ * 读取并解析单个 skill 目录，补齐入口内容和可安装文件载荷。
  */
-async function readSkillFile(skillFile: string, directory: string): Promise<SkillDetail> {
+async function readSkillMetadata(skillFile: string, directory: string): Promise<SkillMetadata> {
   const content = await readFile(skillFile, 'utf8');
   const parsed = parseSkillMarkdown(content, skillFile);
+  const manifest = await readSkillManifest(directory);
 
   return {
     body: parsed.body,
     content,
     description: parsed.description,
     directory,
+    latestVersion: manifest.version,
     name: parsed.name,
     skillFile,
+    title: manifest.title ?? parsed.name,
+  };
+}
+
+/**
+ * 读取 skill.json 中用于列表展示的标题和版本，缺失时返回安全默认值。
+ */
+async function readSkillManifest(
+  directory: string,
+): Promise<{ title: string | null; version: string }> {
+  const manifestFile = path.join(directory, SKILL_MANIFEST_FILE_NAME);
+
+  if (!(await isFile(manifestFile))) {
+    return {
+      title: null,
+      version: DEFAULT_SKILL_VERSION,
+    };
+  }
+
+  try {
+    const rawManifest = await readFile(manifestFile, 'utf8');
+    const manifest = JSON.parse(rawManifest) as unknown;
+
+    if (!isRecord(manifest)) {
+      return {
+        title: null,
+        version: DEFAULT_SKILL_VERSION,
+      };
+    }
+
+    return {
+      title: readStringField(manifest, 'title'),
+      version: readStringField(manifest, 'version') ?? DEFAULT_SKILL_VERSION,
+    };
+  } catch {
+    return {
+      title: null,
+      version: DEFAULT_SKILL_VERSION,
+    };
+  }
+}
+
+/**
+ * 基于入口元数据补齐目录内所有文件，生成详情和安装工具共用的完整载荷。
+ */
+async function readSkillDetail(metadata: SkillMetadata): Promise<SkillDetail> {
+  const files = await readSkillDirectoryFiles(metadata.directory);
+  const totalBytes = files.reduce((total, file) => total + file.sizeBytes, 0);
+
+  return {
+    ...metadata,
+    fileCount: files.length,
+    files,
+    totalBytes,
+  };
+}
+
+/**
+ * 递归读取 skill 目录下所有普通文件，按相对路径排序，便于调用方完整安装。
+ */
+async function readSkillDirectoryFiles(directory: string): Promise<SkillFile[]> {
+  const absoluteDirectory = path.resolve(directory);
+  const filePaths = await listSkillFilePaths(absoluteDirectory);
+  const files = await Promise.all(
+    filePaths.map(async (filePath) => readSkillPayloadFile(absoluteDirectory, filePath)),
+  );
+
+  files.sort((left, right) => left.relativePath.localeCompare(right.relativePath));
+
+  return files;
+}
+
+/**
+ * 遍历目录树并只收集普通文件，避免把子目录作为安装载荷返回。
+ */
+async function listSkillFilePaths(directory: string): Promise<string[]> {
+  const entries = await readdir(directory, { withFileTypes: true });
+  const files: string[] = [];
+
+  for (const entry of entries) {
+    const entryPath = path.join(directory, entry.name);
+
+    if (entry.isDirectory()) {
+      files.push(...(await listSkillFilePaths(entryPath)));
+      continue;
+    }
+
+    if (entry.isFile()) {
+      files.push(entryPath);
+    }
+  }
+
+  return files;
+}
+
+/**
+ * 读取单个安装文件；文本内容直接返回，二进制内容用 base64 保真传输。
+ */
+async function readSkillPayloadFile(directory: string, filePath: string): Promise<SkillFile> {
+  const contentBuffer = await readFile(filePath);
+  const relativePath = normalizeRelativePath(path.relative(directory, filePath));
+  const content = contentBuffer.toString('utf8');
+
+  if (Buffer.from(content, 'utf8').equals(contentBuffer)) {
+    return {
+      absolutePath: filePath,
+      content,
+      encoding: 'utf8',
+      relativePath,
+      sizeBytes: contentBuffer.byteLength,
+    };
+  }
+
+  return {
+    absolutePath: filePath,
+    content: contentBuffer.toString('base64'),
+    encoding: 'base64',
+    relativePath,
+    sizeBytes: contentBuffer.byteLength,
   };
 }
 
@@ -376,12 +514,14 @@ function stripWrappingQuotes(value: string): string {
 /**
  * 将完整 skill 详情压缩为列表接口需要的摘要字段。
  */
-function toSkillSummary(skill: SkillDetail): SkillSummary {
+function toSkillSummary(skill: SkillSummary): SkillSummary {
   return {
     description: skill.description,
     directory: skill.directory,
+    latestVersion: skill.latestVersion,
     name: skill.name,
     skillFile: skill.skillFile,
+    title: skill.title,
   };
 }
 
@@ -454,6 +594,33 @@ function normalizeEnvValue(value: string | undefined): string | null {
   }
 
   return value;
+}
+
+/**
+ * 将本机路径分隔符统一为安装载荷中的相对路径分隔符。
+ */
+function normalizeRelativePath(relativePath: string): string {
+  return relativePath.split(path.sep).join('/');
+}
+
+/**
+ * 判断 JSON 解析结果是否为普通记录，便于安全读取字段。
+ */
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
+
+/**
+ * 从 JSON 记录读取非空字符串字段，空字符串视为缺失。
+ */
+function readStringField(record: Record<string, unknown>, key: string): string | null {
+  const value = record[key];
+
+  if (typeof value !== 'string' || value.trim().length === 0) {
+    return null;
+  }
+
+  return value.trim();
 }
 
 /**

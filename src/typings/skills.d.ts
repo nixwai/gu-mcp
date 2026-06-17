@@ -2,14 +2,31 @@
 export interface SkillSummary {
   description: string;
   directory: string;
+  latestVersion: string;
   name: string;
   skillFile: string;
+  title: string;
 }
 
-// SkillDetail 表示单个 skill 的完整 Markdown 内容与解析结果。
+// SkillFileEncoding 表示安装载荷中文件内容的编码方式。
+export type SkillFileEncoding = 'utf8' | 'base64';
+
+// SkillFile 表示 skill 目录内一个可安装文件的完整内容。
+export interface SkillFile {
+  absolutePath: string;
+  content: string;
+  encoding: SkillFileEncoding;
+  relativePath: string;
+  sizeBytes: number;
+}
+
+// SkillDetail 表示单个 skill 的完整 Markdown 内容、解析结果与目录文件载荷。
 export interface SkillDetail extends SkillSummary {
   body: string;
   content: string;
+  fileCount: number;
+  files: SkillFile[];
+  totalBytes: number;
 }
 
 // SkillScanResult 聚合扫描成功的 skill 与可继续处理的告警。
@@ -38,6 +55,8 @@ export interface RecommendedSkillTarget {
 
 // SkillInstallInstructions 是说明式安装工具的结构化返回值。
 export interface SkillInstallInstructions {
+  fileCount: number;
+  files: SkillFile[];
   name: string;
   note: string;
   recommendedTargets: RecommendedSkillTarget[];
@@ -48,6 +67,7 @@ export interface SkillInstallInstructions {
   };
   sourceDir: string;
   steps: string[];
+  totalBytes: number;
 }
 
 // ParsedSkillMarkdown 表示 SKILL.md 解析后的内部结构。

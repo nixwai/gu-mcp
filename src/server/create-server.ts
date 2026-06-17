@@ -1,7 +1,6 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 
 import { registerServerInfoResource } from '../resources/server-info.js';
-import { registerAddTool } from '../tools/add.js';
 import { registerSkillTools } from '../tools/skills.js';
 import type { AppEnv } from '../typings/env.js';
 
@@ -24,7 +23,6 @@ export function createServer(env: AppEnv): McpServer {
   );
 
   registerServerInfoResource(server, env);
-  registerAddTool(server);
   registerSkillTools(server);
 
   return server;
