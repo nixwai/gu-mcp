@@ -1,0 +1,13 @@
+{
+  "name": "prompt-enhancer",
+  "title": "提示词增强",
+  "version": "1.0.0",
+  "description": "低上下文提示词增强：将模糊提示词改写为清晰、可执行的 Agent 提示词。所有触发路径都先输出增强提示词，再通过内部确认 UI 询问是否执行。",
+  "entry": "SKILL.md",
+  "agentSupport": [
+    "codex",
+    "claude-code",
+    "cursor"
+  ],
+  "author": "Frontend"
+}
