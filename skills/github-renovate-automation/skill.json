@@ -2,7 +2,7 @@
   "name": "github-renovate-automation",
   "title": "GitHub Renovate 自动化",
   "version": "1.0.0",
-  "description": "为包含 package.json 的 GitHub Node.js 项目配置 Renovate、CI 必需检查、安全自动合并和分支清理；支持 Mend Renovate GitHub App 与 GitHub Actions 自托管，并通过浏览器配置仓库 Settings 后始终输出完整手动检查流程。",
+  "description": "为包含 package.json 的 GitHub Node.js 项目配置 Renovate、CI 必需检查、安全自动合并和分支清理；支持 Mend Renovate GitHub App 与 GitHub Actions 自托管，并通过浏览器配置仓库 Settings，完成后检查、安装或补充 Renovate App 仓库授权，验证实际激活状态后始终输出完整手动检查流程。",
   "entry": "SKILL.md",
   "agentSupport": [
     "codex",

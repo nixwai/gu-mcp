@@ -11,12 +11,16 @@ $ARGUMENTS
 
 执行要求：
 
-- 先只读检查项目和 GitHub 信息，不直接覆盖现有 Renovate 或 CI 配置。
+- 先只读检查项目和 GitHub 信息；不存在 Renovate 配置时创建根目录 `renovate.json`，存在时合并而非覆盖。
 - 保留用户已明确的接入方式、非重大策略和 major 自动合并策略。
 - 接入方式或 major 自动合并策略缺失时，必须先确认再修改文件。
 - 非重大更新默认合并为一个 PR，并在有效 CI 成功后自动合并；用户明确拒绝时关闭。
 - 没有 test、lint、typecheck、build 等有效项目检查时，保持所有 automerge 关闭并要求用户提供检查命令。
 - 本地配置验证完成后，GitHub Settings 写操作前必须再次展示完整变更清单并确认。
+- 仓库 Settings 完成后检查 Renovate App 是否安装以及目标仓库是否已授权；缺失时尝试通过浏览器安装或追加授权。
+- 安装时选择 `Renovate Only`，不要选择需要额外 Mend 商业许可证的 `Mend Application Security`。
+- 仓库模式选择 `Scan and Alert`，不要选择不会创建依赖更新 PR 的 `Scan Only`。
+- 只有观察到 Job、Onboarding PR、Dependency Dashboard 或依赖 PR 等激活证据后，才报告 Renovate 接入成功。
 - Codex 需要操作 GitHub UI 时调用 `$browser:control-in-app-browser`，不得改用外部 Playwright。
 - 自托管不得直接使用普通 `GITHUB_TOKEN`，不得把 Token 写入文件或输出。
 - 无论浏览器成功、失败、未登录、无权限或用户取消，最终都必须输出完整手动 GitHub Settings 配置过程。

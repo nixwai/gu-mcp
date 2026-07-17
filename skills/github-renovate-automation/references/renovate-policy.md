@@ -24,6 +24,13 @@
 | 无有效 CI | 强制阻止 | 所有 `automerge` 设为 `false` |
 | required approvals > 0 | 不静默修改 | 单独确认；否则保留并报告阻塞 |
 
+## 配置不存在时
+
+- Hosted App：创建根目录 `renovate.json` 并让它进入默认分支；如果 App 已先创建 Configure Renovate/Onboarding PR，检查内容后选择合并该 PR 或用本地配置替代，避免保留两个配置入口。
+- 自托管：必须先创建并提交仓库级 `renovate.json`。当前全局配置使用 `onboarding: false` 与 `requireConfig: 'required'`，缺少仓库配置时会跳过目标仓库。
+- 只创建本地文件不代表 Renovate 已接入；配置必须存在于默认分支，或 Hosted App 的 Onboarding PR 已合并。
+- 最终必须观察到 Onboarding PR、Dependency Dashboard、成功 Mend/Actions Job 或首个依赖 PR 中的至少一项，才能判定 Renovate 已激活。
+
 ## Renovate 基准配置
 
 以下有效示例表示：非重大更新自动合并，major 更新不自动合并。
@@ -120,7 +127,7 @@ Workflow 必须：
 
 ## 自托管 Renovate
 
-仓库依赖策略保留在 `renovate.json`，自托管全局设置使用单独文件，例如 `.github/renovate-config.js`：
+仓库依赖策略必须存在于默认分支的 `renovate.json`；不存在时先创建。自托管全局设置使用单独文件，例如 `.github/renovate-config.js`：
 
 ```js
 module.exports = {
