@@ -1,7 +1,7 @@
 import type { Server as NodeHttpServer } from 'node:http';
-
 import type { HttpSession } from '../typings/http.js';
 import type { Logger } from '../typings/logger.js';
+import process from 'node:process';
 
 /**
  * 注册进程退出处理，确保 HTTP server 与所有 session transport 被关闭。

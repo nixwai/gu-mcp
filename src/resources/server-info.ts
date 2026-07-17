@@ -14,7 +14,7 @@ export function registerServerInfoResource(server: McpServer, env: AppEnv): void
       mimeType: 'application/json',
       title: 'Server Info',
     },
-    (uri) => ({
+    uri => ({
       contents: [
         {
           mimeType: 'application/json',

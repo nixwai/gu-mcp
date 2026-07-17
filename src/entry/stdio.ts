@@ -1,3 +1,4 @@
+import process from 'node:process';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 
 import { loadEnv } from '../config/env.js';

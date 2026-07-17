@@ -1,5 +1,6 @@
 import type { LogLevel } from '../typings/env.js';
 import type { Logger, PrintableLogLevel } from '../typings/logger.js';
+import process from 'node:process';
 
 // levelWeight 用数值权重控制日志等级过滤。
 const levelWeight: Record<PrintableLogLevel, number> = {
@@ -27,9 +28,9 @@ export function createLogger(minLevel: LogLevel): Logger {
   }
 
   return {
-    debug: (message) => write('debug', message),
-    error: (message) => write('error', message),
-    info: (message) => write('info', message),
-    warn: (message) => write('warn', message),
+    debug: message => write('debug', message),
+    error: message => write('error', message),
+    info: message => write('info', message),
+    warn: message => write('warn', message),
   };
 }

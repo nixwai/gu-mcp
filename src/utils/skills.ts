@@ -1,8 +1,3 @@
-import { Buffer } from 'node:buffer';
-import { readdir, readFile, stat } from 'node:fs/promises';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-
 import type {
   ParsedSkillMarkdown,
   RecommendedSkillTarget,
@@ -13,6 +8,11 @@ import type {
   SkillScanResult,
   SkillSummary,
 } from '../typings/skills.js';
+import { Buffer } from 'node:buffer';
+import { readdir, readFile, stat } from 'node:fs/promises';
+import path from 'node:path';
+import process from 'node:process';
+import { fileURLToPath } from 'node:url';
 
 // SKILL_FILE_NAME 是每个 skill 目录内约定的入口文件名。
 const SKILL_FILE_NAME = 'SKILL.md';
@@ -26,8 +26,8 @@ const DEFAULT_SKILL_VERSION = '0.0.0';
 
 // SkillMetadata 是内部轻量结构，用于列表扫描和名称匹配。
 interface SkillMetadata extends SkillSummary {
-  body: string;
-  content: string;
+  body: string
+  content: string
 }
 
 /**
@@ -267,7 +267,7 @@ async function readSkillMetadata(skillFile: string, directory: string): Promise<
  */
 async function readSkillManifest(
   directory: string,
-): Promise<{ title: string | null; version: string }> {
+): Promise<{ title: string | null, version: string }> {
   const manifestFile = path.join(directory, SKILL_MANIFEST_FILE_NAME);
 
   if (!(await isFile(manifestFile))) {
@@ -322,7 +322,7 @@ async function readSkillDirectoryFiles(directory: string): Promise<SkillFile[]> 
   const absoluteDirectory = path.resolve(directory);
   const filePaths = await listSkillFilePaths(absoluteDirectory);
   const files = await Promise.all(
-    filePaths.map(async (filePath) => readSkillPayloadFile(absoluteDirectory, filePath)),
+    filePaths.map(async filePath => readSkillPayloadFile(absoluteDirectory, filePath)),
   );
 
   files.sort((left, right) => left.relativePath.localeCompare(right.relativePath));
@@ -504,7 +504,7 @@ function stripWrappingQuotes(value: string): string {
   const first = value[0];
   const last = value[value.length - 1];
 
-  if ((first === '"' && last === '"') || (first === "'" && last === "'")) {
+  if ((first === '"' && last === '"') || (first === '\'' && last === '\'')) {
     return value.slice(1, -1);
   }
 
@@ -537,10 +537,10 @@ function createRecommendedTargets(
   skill: SkillDetail,
   environmentHints: RuntimeEnvironmentHints,
 ): RecommendedSkillTarget[] {
-  const codexHomeTarget =
-    environmentHints.CODEX_HOME === null ? null : path.join(environmentHints.CODEX_HOME, 'skills');
-  const userCodexTarget =
-    environmentHints.HOME !== null
+  const codexHomeTarget
+    = environmentHints.CODEX_HOME === null ? null : path.join(environmentHints.CODEX_HOME, 'skills');
+  const userCodexTarget
+    = environmentHints.HOME !== null
       ? path.join(environmentHints.HOME, '.codex', 'skills')
       : environmentHints.USERPROFILE === null
         ? null

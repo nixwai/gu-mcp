@@ -112,6 +112,8 @@ pnpm install
 pnpm run dev:stdio
 pnpm run dev:http
 pnpm run build
+pnpm run lint
+pnpm run lint:fix
 pnpm run typecheck
 pnpm run verify
 pnpm run mcp:inspect

@@ -1,4 +1,5 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
+import { Buffer } from 'node:buffer';
 
 // jsonContentType 是入口直接返回 JSON 错误时使用的响应类型。
 const jsonContentType = 'application/json; charset=utf-8';

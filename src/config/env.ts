@@ -1,7 +1,8 @@
-import { config as loadDotenv } from 'dotenv';
-import { z } from 'zod';
-
 import type { AppEnv } from '../typings/env.js';
+import process from 'node:process';
+import { config as loadDotenv } from 'dotenv';
+
+import { z } from 'zod';
 
 // 静默加载 .env，避免 dotenv 默认日志写入 stdout 破坏 MCP stdio 协议。
 loadDotenv({ quiet: true });

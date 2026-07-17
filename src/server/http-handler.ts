@@ -1,14 +1,13 @@
-import { randomUUID } from 'node:crypto';
+import type { Transport } from '@modelcontextprotocol/sdk/shared/transport.js';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 
-import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
-import type { Transport } from '@modelcontextprotocol/sdk/shared/transport.js';
-import { isInitializeRequest } from '@modelcontextprotocol/sdk/types.js';
-
-import { createServer } from './create-server.js';
 import type { AppEnv } from '../typings/env.js';
 import type { HttpSession } from '../typings/http.js';
 import type { Logger } from '../typings/logger.js';
+
+import { randomUUID } from 'node:crypto';
+import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
+import { isInitializeRequest } from '@modelcontextprotocol/sdk/types.js';
 import {
   isConfiguredPath,
   readJsonBody,
@@ -16,6 +15,7 @@ import {
   sendJsonRpcError,
   sendText,
 } from '../utils/http.js';
+import { createServer } from './create-server.js';
 
 // sessionHeaderName 是 MCP Streamable HTTP 用于复用会话的请求头名称。
 const sessionHeaderName = 'mcp-session-id';
@@ -197,7 +197,7 @@ class JsonBodyError extends Error {
  */
 function containsInitializeRequest(body: unknown): boolean {
   if (Array.isArray(body)) {
-    return body.some((message) => isInitializeRequest(message));
+    return body.some(message => isInitializeRequest(message));
   }
 
   return isInitializeRequest(body);

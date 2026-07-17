@@ -1,14 +1,30 @@
 {
   "name": "gu-mcp",
-  "version": "0.1.0",
-  "description": "基础 Node TypeScript MCP 服务。",
   "type": "module",
+  "version": "0.1.0",
+  "packageManager": "pnpm@11.3.0",
+  "description": "基础 Node TypeScript MCP 服务。",
+  "author": "nxy",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nixwai/gu-mcp"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "typescript",
+    "node"
+  ],
   "bin": {
     "gu-mcp": "dist/stdio.js"
   },
   "files": [
     "dist"
   ],
+  "engines": {
+    "node": ">=22.18.0"
+  },
   "scripts": {
     "dev": "pnpm run dev:stdio",
     "dev:stdio": "tsx src/entry/stdio.ts",
@@ -17,32 +33,21 @@
     "start:stdio": "node dist/stdio.js",
     "start:http": "node dist/http.js",
     "typecheck": "tsc --noEmit",
-    "verify": "pnpm run typecheck && pnpm run build",
-    "mcp:inspect": "pnpm run build && pnpm dlx @modelcontextprotocol/inspector node dist/stdio.js"
+    "verify": "pnpm run lint && pnpm run typecheck && pnpm run build",
+    "mcp:inspect": "pnpm run build && pnpm dlx @modelcontextprotocol/inspector node dist/stdio.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
-  "keywords": [
-    "mcp",
-    "model-context-protocol",
-    "typescript",
-    "node"
-  ],
-  "author": "nxy",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/nixwai/gu-mcp"
-  },
-  "engines": {
-    "node": ">=22.18.0"
-  },
-  "packageManager": "pnpm@11.3.0",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.29.0",
     "dotenv": "^17.2.3",
     "zod": "^4.1.12"
   },
   "devDependencies": {
+    "@antfu/eslint-config": "^9.1.0",
     "@types/node": "^24.10.1",
+    "eslint": "^10.7.0",
+    "eslint-plugin-format": "^2.0.1",
     "tsdown": "^0.22.2",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"

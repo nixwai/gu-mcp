@@ -1,13 +1,12 @@
-import {
-  createServer as createNodeHttpServer,
-  type Server as NodeHttpServer,
-} from 'node:http';
+import type { Server as NodeHttpServer } from 'node:http';
+import type { HttpSession } from '../typings/http.js';
 
+import { createServer as createNodeHttpServer } from 'node:http';
+import process from 'node:process';
 import { loadEnv } from '../config/env.js';
-import { createLogger } from '../utils/logger.js';
 import { handleHttpRequest } from '../server/http-handler.js';
 import { registerShutdownHandlers } from '../server/http-shutdown.js';
-import type { HttpSession } from '../typings/http.js';
+import { createLogger } from '../utils/logger.js';
 
 /**
  * 启动 Streamable HTTP 模式：监听单一路径并按 mcp-session-id 管理有状态会话。

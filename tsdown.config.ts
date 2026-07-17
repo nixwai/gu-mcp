@@ -1,5 +1,5 @@
-import { defineConfig } from 'tsdown';
 import type { UserConfig } from 'tsdown';
+import { defineConfig } from 'tsdown';
 
 // sharedConfig 保存两个入口共同使用的 Node ESM 打包规则。
 const sharedConfig: UserConfig = {

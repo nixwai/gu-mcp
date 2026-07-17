@@ -1,8 +1,8 @@
-import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
+import type { AppEnv } from '../typings/env.js';
 
+import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { registerServerInfoResource } from '../resources/server-info.js';
 import { registerSkillTools } from '../tools/skills.js';
-import type { AppEnv } from '../typings/env.js';
 
 /**
  * 创建 MCP 服务实例，并集中注册当前项目暴露的资源与工具。

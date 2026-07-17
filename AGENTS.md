@@ -25,8 +25,10 @@
 - `pnpm run build`：使用 `tsdown` 打包到 `dist/`。
 - `pnpm run start:stdio`：运行打包后的 stdio MCP 服务。
 - `pnpm run start:http`：运行打包后的 HTTP MCP 服务。
+- `pnpm run lint`：执行 ESLint 代码检查。
+- `pnpm run lint:fix`：执行 ESLint 检查并自动修复可修复问题。
 - `pnpm run typecheck`：执行 TypeScript 类型检查。
-- `pnpm run verify`：依次执行类型检查与构建。
+- `pnpm run verify`：依次执行 ESLint 检查、类型检查与构建。
 - `pnpm run mcp:inspect`：构建后打开 MCP Inspector。
 
 ## 环境变量规则

@@ -1,12 +1,13 @@
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
-import { z } from 'zod';
+import type { CallToolResult } from '@modelcontextprotocol/sdk/types.js';
+import type { SkillScanResult, SkillSummary } from '../typings/skills.js';
 
+import { z } from 'zod';
 import {
   createSkillInstallInstructions,
   getProjectSkill,
   scanProjectSkills,
 } from '../utils/skills.js';
-import type { SkillScanResult, SkillSummary } from '../typings/skills.js';
 
 // skillFileSchema 描述 skill 目录内一个可安装文件的结构化载荷。
 const skillFileSchema = z.object({
@@ -133,7 +134,7 @@ export function registerSkillTools(server: McpServer): void {
   );
 }
 
-function createToolResult<T extends object>(output: T, text = JSON.stringify(output, null, 2)) {
+function createToolResult<T extends object>(output: T, text = JSON.stringify(output, null, 2)): CallToolResult {
   return {
     content: [
       {
@@ -153,7 +154,7 @@ function formatSkillListTable(output: SkillScanResult): string {
     return table;
   }
 
-  const warnings = output.warnings.map((warning) => `- ${warning}`).join('\n');
+  const warnings = output.warnings.map(warning => `- ${warning}`).join('\n');
 
   return `${table}\n\nWarnings:\n${warnings}`;
 }
@@ -170,7 +171,7 @@ function escapeMarkdownTableCell(value: string): string {
   return value.replace(/\r?\n/g, ' ').replace(/\|/g, '\\|').trim();
 }
 
-function createErrorResult(error: unknown) {
+function createErrorResult(error: unknown): CallToolResult {
   const message = error instanceof Error ? error.message : String(error);
   const output = { error: message };
 
