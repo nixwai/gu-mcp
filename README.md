@@ -7,7 +7,14 @@
 - `stdio`：适合本地 Agent 或 MCP 客户端直接启动。
 - `Streamable HTTP`：适合通过 HTTP endpoint 接入的 Agent 或线上部署场景。
 
-当前项目的核心能力是暴露根目录 `skills/` 中的可用 skill。Agent 可以通过 MCP 工具列出 skill、读取完整内容，并获取说明式安装步骤。项目内置 `prompt-enhancer` skill，用于将模糊提示词增强为清晰、可执行、低上下文的 Agent 提示词。
+当前项目的核心能力是暴露根目录 `skills/` 中的可用 skill。Agent 可以通过 MCP 工具列出 skill、读取完整内容，并获取说明式安装步骤。
+
+当前项目提供以下 skill：
+
+| Skill | 简介 |
+| --- | --- |
+| `github-renovate-automation` | 为 GitHub Node.js 项目配置、修复或审计 Renovate 依赖更新与安全自动合并流程。 |
+| `prompt-enhancer` | 增强、改写或优化提示词，并在用户确认后执行增强后的任务。 |
 
 ## 在 Agent 上安装 MCP
 
