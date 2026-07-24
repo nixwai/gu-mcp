@@ -31,7 +31,7 @@ importers:
         specifier: ^2.0.1
         version: 2.0.1(eslint@10.7.0)
       tsdown:
-        specifier: ^0.22.12
+        specifier: ^0.22.13
         version: 0.22.13(tsx@4.23.1)(typescript@5.9.3)
       tsx:
         specifier: ^4.23.1
