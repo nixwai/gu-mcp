@@ -1,0 +1,6 @@
+interface:
+  display_name: "源码需求解读"
+  short_description: "仅依据指定源码与用户确认内容生成非程序员可读需求文档"
+  default_prompt: "使用 $source-requirements-interpreter 解读我指定的源码；若用户尚未明确，则先询问是否附加需求溯源表，再逐个澄清歧义并生成需求文档。"
+policy:
+  allow_implicit_invocation: true

@@ -10,6 +10,7 @@ export default antfu(
       'logs/**',
       'pnpm-lock.yaml',
       '**/*.md',
+      'skills',
     ],
     stylistic: {
       braceStyle: '1tbs',

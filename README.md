@@ -15,6 +15,7 @@
 | --- | --- |
 | `github-renovate-automation` | 为 GitHub Node.js 项目配置、修复或审计 Renovate 依赖更新与安全自动合并流程。 |
 | `prompt-enhancer` | 增强、改写或优化提示词，并在用户确认后执行增强后的任务。 |
+| `source-requirements-interpreter` | 从资深产品与交互设计视角解读指定源码，生成非程序员可读的 Markdown 需求设计文档。 |
 
 ## 在 Agent 上安装 MCP
 
@@ -109,7 +110,7 @@ Windows 环境通常是：
 
 ### 运行要求
 
-- Node.js `>=22.18.0`
+- Node.js `>=24.18.0`
 - pnpm `>=11`
 
 ### 常用命令
