@@ -34,7 +34,7 @@ importers:
         specifier: ^0.22.14
         version: 0.22.14(tsx@4.23.9)(typescript@5.9.3)
       tsx:
-        specifier: ^4.23.7
+        specifier: ^4.23.8
         version: 4.23.9
       typescript:
         specifier: ^5.9.3
