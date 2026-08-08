@@ -2,7 +2,7 @@
   "name": "gu-mcp",
   "type": "module",
   "version": "0.1.0",
-  "packageManager": "pnpm@11.19.0",
+  "packageManager": "pnpm@11.20.0",
   "description": "基础 Node TypeScript MCP 服务。",
   "author": "nxy",
   "license": "MIT",
@@ -49,7 +49,7 @@
     "eslint": "^10.8.0",
     "eslint-plugin-format": "^2.0.1",
     "tsdown": "^0.22.14",
-    "tsx": "^4.23.5",
+    "tsx": "^4.23.6",
     "typescript": "^5.9.3"
   }
 }
