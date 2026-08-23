@@ -1,0 +1,6 @@
+interface:
+  display_name: Vue Component Dev
+  short_description: Vue 公共组件边界、复用与工程化开发规范
+  default_prompt: 使用 $vue-component-dev 设计或审查 Vue 公共组件的职责边界、代码归属、公开契约与测试验收。
+policy:
+  allow_implicit_invocation: true
