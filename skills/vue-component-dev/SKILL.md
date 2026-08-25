@@ -63,15 +63,16 @@ description: >-
 <component-dir>/
 ├─ index.ts                    # 公共入口
 ├─ src/
-│  ├─ <component-name>.vue          # 组件主体
-│  ├─ <component-name>.ts           # 对外组件类型
+│  ├─ <component-name>.vue     # 组件主体
+│  ├─ <component-name>.ts      # 对外组件类型
 │  ├─ instance.ts              # 按需提供对外实例类型
+│  ├─ service.ts               # 私有后端服务接口
 │  ├─ components/              # 私有子组件
 │  ├─ hooks/                   # 私有 hooks
 │  ├─ composables/             # 私有 composables
 │  ├─ utils/                   # 私有工具函数
 │  ├─ typings/                 # 私有类型
-│  ├─ constants/               # 私有常量
+│  ├─ constants/               # 私有常量与枚举
 │  └─ config/                  # 私有配置
 └─ __tests__/                  # 组件测试；测试文件统一位于 **/__tests__/**
 ```
@@ -83,8 +84,9 @@ description: >-
 - `src/<component-name>.vue` 负责组件模板和组件级契约；
 - `src/<component-name>.ts` 放稳定、确实需要对外暴露的组件类型；
 - 只有调用方确实需要操作组件实例时，才创建 `src/instance.ts`；
+- 私有后端服务接口放在 `src/service/`；
 - 私有子组件放在 `src/components/`，私有 hooks 放在 `src/hooks/`，私有 composables 放在 `src/composables/`；
-- 私有工具、类型、常量、配置分别放在 `src/utils/`、`src/typings/`、`src/constants/`、`src/config/`；简单组件可使用对应的单文件形式，如 `typings.ts`，但不能同时创建重复层级；
+- 私有工具、类型、常量与枚举、配置分别放在 `src/utils/`、`src/typings/`、`src/constants/`、`src/config/`；简单组件可使用对应的单文件形式，如 `typings.ts`，但不能同时创建重复层级；
 - 所有测试文件放在组件目录或项目约定的 `__tests__` 目录中，匹配 `**/__tests__/**`；不得将测试散落在组件实现目录或公共入口旁；
 - 项目已有统一公共目录时，项目共享代码必须沿用该目录，不得在组件目录建立第二套公共层级。
 
