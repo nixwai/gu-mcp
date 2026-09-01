@@ -41,7 +41,7 @@
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.30.0",
     "dotenv": "^17.4.2",
-    "zod": "^4.5.1"
+    "zod": "^4.5.2"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^9.3.0",
