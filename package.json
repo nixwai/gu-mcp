@@ -2,7 +2,7 @@
   "name": "gu-mcp",
   "type": "module",
   "version": "0.1.0",
-  "packageManager": "pnpm@11.25.0",
+  "packageManager": "pnpm@12.3.1",
   "description": "基础 Node TypeScript MCP 服务。",
   "author": "nxy",
   "license": "MIT",
