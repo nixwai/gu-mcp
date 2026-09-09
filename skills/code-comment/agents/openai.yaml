@@ -1,0 +1,8 @@
+agent: code-comment
+description: 优化代码注释
+triggers:
+  - 优化注释
+  - 修改注释
+  - 注释规范
+  - comment
+  - annotate
