@@ -18,6 +18,7 @@
 | `source-requirements-interpreter` | 从资深产品与交互设计视角解读指定源码，生成非程序员可读的 Markdown 需求设计文档。 |
 | `code-comment` | 代码注释规范：只解释代码做什么，清除迭代残留，按语言选择注释格式。 |
 | `vue-component-dev` | Vue 公共组件的职责边界、代码归属、公开契约与测试验收规范。 |
+| `vue-page-optimization` | 在 Vue 项目中开发或优化业务页面，优先复用现有组件实现，减少重复代码与自定义逻辑。 |
 
 ## 在 Agent 上安装 MCP
 

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Vue Page Optimization"
+  short_description: "优先复用现有组件的 Vue 业务页面开发与代码优化规范"
+  default_prompt: "使用 $vue-page-optimization 开发或优化 Vue 业务页面，先检查现有组件实现并优先复用。"
