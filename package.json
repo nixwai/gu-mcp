@@ -2,7 +2,7 @@
   "name": "gu-mcp",
   "type": "module",
   "version": "0.1.0",
-  "packageManager": "pnpm@12.4.1",
+  "packageManager": "pnpm@12.4.2",
   "description": "基础 Node TypeScript MCP 服务。",
   "author": "nxy",
   "license": "MIT",
@@ -45,7 +45,7 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^9.5.1",
-    "@types/node": "^24.13.4",
+    "@types/node": "^24.13.5",
     "eslint": "^10.10.0",
     "eslint-plugin-format": "^2.0.1",
     "tsdown": "^0.23.0",
