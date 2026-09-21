@@ -20,6 +20,12 @@
 | `vue-component-dev` | Vue 公共组件的职责边界、代码归属、公开契约与测试验收规范。 |
 | `vue-page-optimization` | 在 Vue 项目中开发或优化业务页面，优先复用现有组件实现，减少重复代码与自定义逻辑。 |
 
+## 使用npx skills安装skill
+
+```text
+npx skills add nixwai/gu-mcp --skill <skill-name>
+```
+
 ## 在 Agent 上安装 MCP
 
 ### 线上 Streamable HTTP
