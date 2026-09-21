@@ -23,7 +23,7 @@
 ## 使用npx skills安装skill
 
 ```text
-npx skills add nixwai/gu-mcp --skill <skill-name>
+npx skills add https://github.com/nixwai/gu-mcp --skill <skill-name>
 ```
 
 ## 在 Agent 上安装 MCP
