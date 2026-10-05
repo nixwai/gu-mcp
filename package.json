@@ -2,7 +2,7 @@
   "name": "gu-mcp",
   "type": "module",
   "version": "0.1.0",
-  "packageManager": "pnpm@12.8.2",
+  "packageManager": "pnpm@12.9.0",
   "description": "基础 Node TypeScript MCP 服务。",
   "author": "nxy",
   "license": "MIT",
@@ -39,14 +39,14 @@
     "lint:fix": "eslint . --fix"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.31.0",
+    "@modelcontextprotocol/sdk": "^1.32.0",
     "dotenv": "^18.0.5",
     "zod": "^4.6.5"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^9.5.1",
     "@types/node": "^24.19.1",
-    "eslint": "^10.11.0",
+    "eslint": "^10.12.0",
     "eslint-plugin-format": "^2.0.1",
     "tsdown": "^0.23.0",
     "tsx": "^4.23.15",
