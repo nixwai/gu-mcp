@@ -26,6 +26,7 @@ export default antfu(
       'pnpm/yaml-enforce-settings': 'off',
       'style/max-statements-per-line': ['error', { max: 1 }],
       'style/semi': ['error', 'always'],
+      'antfu/reasonable-newline': 'off',
     },
   },
   {
